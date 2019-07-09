@@ -1,0 +1,56 @@
+enum PollStatus {
+  Active
+  Inactive
+}
+
+type User {
+  id: String!
+  displayName: String
+  username: String!
+}
+
+type Answer {
+  id: String!
+  users: [User!]!
+  text: String!
+}
+
+type Poll {
+  id: String!
+  createdAt: Int!
+  question: String!
+  answers: [Answer!]!
+  owner: User!
+  voteCount: Int!
+  status: PollStatus
+}
+
+type Query {
+  poll(id: String!): Poll
+  polls: [Poll!]
+  users: [User!]
+  viewer: User
+}
+
+type Result {
+  value: String
+}
+
+type Subscription {
+  pollAdded: Poll
+  pollVoted: Poll
+}
+
+input AnswerInput {
+  text: String!
+}
+
+input PollInput {
+  question: String!
+  answers: [AnswerInput!]!
+}
+
+type Mutation {
+  addPoll(poll: PollInput): Poll
+  votePoll(pollId: String!, answerId: String!): Poll
+}
