@@ -44,13 +44,15 @@ const getClientLink = (jwt?: string) =>
     getHttpLink(jwt)
   );
 
-const getSSRLink = (jwt: string) => getHttpLink(jwt);
-
 const initApollo = (initialState?: any, jwt?: string) =>
   new ApolloClient({
     cache: new InMemoryCache().restore(initialState),
-    link: isServer ? getSSRLink(jwt) : getClientLink(jwt)
+    link: isServer ? getHttpLink(jwt) : getClientLink(jwt)
   });
+
+export const ApolloClientCopy = React.createContext<
+  ApolloClient<NormalizedCacheObject>
+>(null);
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -83,9 +85,11 @@ export default class MyApp extends App {
 
     return (
       <Container>
-        <ApolloProvider client={this.apolloClient}>
-          <Component {...pageProps} />
-        </ApolloProvider>
+        <ApolloClientCopy.Provider value={this.apolloClient}>
+          <ApolloProvider client={this.apolloClient}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </ApolloClientCopy.Provider>
       </Container>
     );
   }
