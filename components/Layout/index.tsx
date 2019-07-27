@@ -43,6 +43,12 @@ export default function CustomLayout({ children }) {
                 </Link>
               </Menu.Item>
               <Menu.Item>
+                <a href="/graphql">
+                  <Icon type="radar-chart" />
+                  GraphiQL
+                </a>
+              </Menu.Item>
+              <Menu.Item>
                 <a href="/auth/github">
                   <Icon type="user" />
                   {data && data.viewer ? '@' + data.viewer.username : 'Login'}
