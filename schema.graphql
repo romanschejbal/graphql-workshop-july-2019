@@ -14,6 +14,7 @@ type Answer {
   id: String!
   users: [User!]!
   text: String!
+  voteCount: Int!
 }
 
 type Poll {

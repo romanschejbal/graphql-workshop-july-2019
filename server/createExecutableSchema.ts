@@ -24,6 +24,9 @@ const resolvers = {
   User: {
     polls: user => repository.getPolls().filter(poll => poll.ownerId == user.id)
   },
+  Answer: {
+    voteCount: answer => answer.users.length
+  },
   Query: {
     poll: (_: any, { id }: any) => repository.getPoll(id),
     polls: () => repository.getPolls(),
