@@ -6,6 +6,7 @@ const polls = [
   {
     id: i++,
     question: 'Your favourite colour?',
+    ownerId: '1391212',
     answers: [
       { id: i++, text: 'Black', users: [] },
       { id: i++, text: 'Blue', users: [] },
@@ -20,6 +21,7 @@ const polls = [
   {
     id: i++,
     question: 'Your favourite car manufacturer?',
+    ownerId: '1391212',
     answers: [
       { id: i++, text: 'Audi', users: [] },
       { id: i++, text: 'Bentley', users: [] },

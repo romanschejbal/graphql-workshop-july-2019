@@ -18,7 +18,11 @@ const resolvers = {
       poll.answers.reduce(
         (total: number, answer: any) => total + answer.users.length,
         0
-      )
+      ),
+    owner: poll => repository.getUser(poll.ownerId)
+  },
+  User: {
+    polls: user => repository.getPolls().filter(poll => poll.ownerId == user.id)
   },
   Query: {
     poll: (_: any, { id }: any) => repository.getPoll(id),
@@ -35,8 +39,12 @@ const resolvers = {
     }
   },
   Mutation: {
-    addPoll: async (_: any, { poll }) => {
+    addPoll: async (_: any, { poll }, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Not logged in');
+      }
       poll = repository.addPoll(poll);
+      poll.ownerId = ctx.user.id;
       await pubsub.publish(Event.POLL_ADDED, { pollAdded: poll });
       return poll;
     },

@@ -7,6 +7,7 @@ type User {
   id: String!
   displayName: String
   username: String!
+  polls: [Poll!]!
 }
 
 type Answer {
@@ -17,7 +18,6 @@ type Answer {
 
 type Poll {
   id: String!
-  createdAt: Int!
   question: String!
   answers: [Answer!]!
   owner: User!
