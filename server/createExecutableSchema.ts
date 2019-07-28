@@ -2,6 +2,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { PubSub } from 'graphql-subscriptions';
 import fs from 'fs';
 import * as repository from './repository';
+import { Resolvers } from '../__generated__/resolvers';
 
 const typeDefs = fs.readFileSync('./schema.graphql', 'utf8');
 
@@ -12,7 +13,7 @@ enum Event {
   POLL_UPDATED = 'POLL_UPDATED'
 }
 
-const resolvers = {
+const resolvers: Resolvers = {
   Poll: {
     voteCount: (poll: any) =>
       poll.answers.reduce(

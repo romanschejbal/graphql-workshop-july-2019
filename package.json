@@ -38,9 +38,15 @@
     "introspect:local": "apollo-codegen introspect-schema schema.graphql --output schema.json",
     "build:types": "apollo client:codegen --localSchemaFile schema.json --target typescript --includes \"{pages,components}/**/*.{tsx,ts}\" --excludes node_modules --outputFlat",
     "build": "yarn build:types && next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js"
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "resolver:types": "graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.4.0",
+    "@graphql-codegen/typescript": "1.4.0",
+    "@graphql-codegen/typescript-operations": "1.4.0",
+    "@graphql-codegen/typescript-react-apollo": "1.4.0",
+    "@graphql-codegen/typescript-resolvers": "^1.4.0",
     "@types/react": "^16.8.23",
     "apollo": "^2.16.1",
     "apollo-codegen": "^0.20.2",
