@@ -47,10 +47,9 @@ const resolvers: Resolvers = {
       if (!ctx.user) {
         throw new Error('Not logged in');
       }
-      poll = repository.addPoll(poll);
-      poll.ownerId = ctx.user.id;
+      poll = repository.addPoll({ ...poll, ownerId: ctx.user.id });
       await pubsub.publish(Event.POLL_ADDED, { pollAdded: poll });
-      return poll;
+      return poll as repository.Poll;
     },
     votePoll: async (_: any, { pollId, answerId }, ctx) => {
       if (!ctx.user) {

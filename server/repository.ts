@@ -2,6 +2,24 @@ let i = 0;
 
 const users = [];
 
+export type User = {
+  id: string;
+  username: string;
+};
+
+export type Answer = {
+  id: number;
+  text: string;
+  users: Array<User>;
+};
+
+export type Poll = {
+  id: number;
+  question: string;
+  ownerId: string;
+  answers: Array<Answer>;
+};
+
 const polls = [
   {
     id: i++,

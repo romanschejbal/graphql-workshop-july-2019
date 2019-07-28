@@ -6,4 +6,8 @@ generates:
       - 'typescript'
       - 'typescript-resolvers'
     config:
-      avoidOptionals: true
+      avoidOptionals: false
+      mappers:
+        Answer: ../server/repository#Answer
+        User: ../server/repository#User
+        Poll: ../server/repository#Poll
