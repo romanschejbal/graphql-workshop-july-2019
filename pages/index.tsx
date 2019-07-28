@@ -28,6 +28,7 @@ const POLL_ADDED_SUBSCRIPTION = gql`
       ...PollListFragment
     }
   }
+  ${PollList.fragment}
 `;
 
 export default function Index() {
