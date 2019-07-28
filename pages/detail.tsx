@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { Query, ApolloConsumer } from 'react-apollo';
+import { Query, ApolloConsumer, Subscription } from 'react-apollo';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import ApolloClient, { WatchQueryOptions } from 'apollo-client';
 import { Icon, Progress } from 'antd';
@@ -143,11 +143,12 @@ export default function Detail() {
           </li>
         ))}
       </ol>
+      <Subscription subscription={POLL_VOTED_SUBSCRIPTION} />
     </Layout>
   );
 }
 
-Detail.query = ({ query }) => ({
+Detail.qquery = ({ query }) => ({
   query: GET_POLL_QUERY,
   variables: { id: query.id }
 });

@@ -1,0 +1,41 @@
+type User {
+  id: String!
+  username: String
+}
+
+type Answer {
+  id: String!
+  text: String!
+  voteCount: Int
+  users: [User!]!
+}
+
+type Poll {
+  id: String!
+  question: String @deprecated(reason: "Use text instead")
+  text: String
+  answers: [Answer!]!
+  voteCount: Int
+  status: String
+}
+
+type GithubUser {
+  id: String!
+  username: String!
+  followers: [GithubUser!]
+}
+
+type Query {
+  polls: [Poll!]!
+  poll(id: String!): Poll
+  githubUser(username: String!): GithubUser
+  viewer: User
+}
+
+type Mutation {
+  votePoll(pollId: String!, answerId: String!): Poll
+}
+
+type Subscription {
+  pollVoted: Poll
+}

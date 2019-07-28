@@ -7,7 +7,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import fetch from 'isomorphic-fetch';
-import { split } from 'apollo-link';
+import { split, ApolloLink, Operation, NextLink } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 
 const getFetch = jwt => (url: string, opts: any = {}) =>
@@ -18,8 +18,8 @@ const getFetch = jwt => (url: string, opts: any = {}) =>
   });
 
 const isServer = typeof window === 'undefined';
-// const baseUrl = isServer ? process.env.BASE_URL : window.location.host;
-const baseUrl = 'graphql-workshop-2019.herokuapp.com';
+const baseUrl = isServer ? process.env.BASE_URL : window.location.host;
+// const baseUrl = 'graphql-workshop-2019.herokuapp.com';
 
 const getHttpLink = (jwt?: string) =>
   createHttpLink({ uri: `http://${baseUrl}/graphql`, fetch: getFetch(jwt) });
@@ -45,10 +45,20 @@ const getClientLink = (jwt?: string) =>
     getHttpLink(jwt)
   );
 
+class MyCustomLink extends ApolloLink {
+  request(operation: Operation, forward: NextLink) {
+    console.log({ operation });
+    return forward(operation);
+  }
+}
+
 const initApollo = (initialState?: any, jwt?: string) =>
   new ApolloClient({
     cache: new InMemoryCache().restore(initialState),
-    link: isServer ? getHttpLink(jwt) : getClientLink(jwt)
+    link: ApolloLink.from([
+      new MyCustomLink(),
+      isServer ? getHttpLink(jwt) : getClientLink(jwt)
+    ])
   });
 
 export const ApolloClientCopy = React.createContext<
